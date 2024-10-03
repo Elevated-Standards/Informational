@@ -12,34 +12,35 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            // Convert issue title to lowercase to ignore case differences
             const issueTitle = context.payload.issue.title.toLowerCase();
             const issueNumber = context.payload.issue.number;
             const labelsToAdd = [];
 
-            // Define labeling rules based on title content
-            if (issueTitle.includes('Best Practice')) {
+            // Define labeling rules (all checks are case insensitive now)
+            if (issueTitle.includes('best practice')) {
               labelsToAdd.push('BEST PRACTICE');
             }
-            if (issueTitle.includes('Checklist')) {
+            if (issueTitle.includes('checklist')) {
               labelsToAdd.push('CHECKLIST');
             }
-            if (issueTitle.includes('Diagram')) {
+            if (issueTitle.includes('diagram')) {
               labelsToAdd.push('DIAGRAM');
             }
-            if (issueTitle.includes('Guideline')) {
+            if (issueTitle.includes('guideline')) {
               labelsToAdd.push('GUIDELINE');
             }
-            if (issueTitle.includes('Policy')) {
+            if (issueTitle.includes('policy')) {
               labelsToAdd.push('POLICY');
             }
-            if (issueTitle.includes('Procedure')) {
+            if (issueTitle.includes('procedure')) {
               labelsToAdd.push('PROCEDURE');
             }
-            if (issueTitle.includes('Standard')) {
+            if (issueTitle.includes('standard')) {
               labelsToAdd.push('STANDARD');
             }
 
-            // Add labels to the issue
+            // Add labels to the issue if any matching keywords are found
             if (labelsToAdd.length > 0) {
               await github.issues.addLabels({
                 owner: context.repo.owner,
@@ -48,3 +49,5 @@ jobs:
                 labels: labelsToAdd
               });
             }
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub default token
+          debug: true  # Enable debug for troubleshooting
