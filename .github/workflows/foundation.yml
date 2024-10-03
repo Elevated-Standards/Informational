@@ -1,4 +1,4 @@
-name: Auto-label Issues
+name: Foundation Workflow
 
 on:
   issues:
