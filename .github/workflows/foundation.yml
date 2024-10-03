@@ -49,4 +49,22 @@ jobs:
                 labels: labelsToAdd
               });
             }
-          debug: true
+
+            // Add labels to the issue if any matching keywords are found
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: labelsToAdd
+              });
+            }
+
+            // Automatically assign the issue to the user who triggered the event
+            const username = context.actor;  // Get the username of the actor who triggered the event
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              assignees: [username]  // Assign issue to the user who opened or edited it
+            });
