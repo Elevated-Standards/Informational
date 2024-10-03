@@ -42,12 +42,12 @@ jobs:
 
             // Add labels to the issue if any matching keywords are found
             if (labelsToAdd.length > 0) {
-              await github.issues.addLabels({
+              await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issueNumber,
                 labels: labelsToAdd
               });
             }
-          github-token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub default token
-          debug: true  # Enable debug for troubleshooting
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Use the default token
+          debug: true
